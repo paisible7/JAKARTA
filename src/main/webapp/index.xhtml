@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      >
+    <head>
+        <title>JAKARTA MISSION</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h2>
+            Entrer un nom : 
+        </h2>
+
+
+        <h:form>
+            <h:inputText id="name" value="#{welcomeBean.name}" required="true"/>
+            <h:commandButton value="envoyer" action="#{welcomeBean.afficher()}" />
+        </h:form>
+
+        <h:outputText value="#{welcomeBean.message}" />
+        <hr />
+        <h1>Convertisseur de monnaie</h1>
+        <h:form>
+            <label for="usdMontant" >Montant en USD: </label>
+            <h:inputText id="usdMontant" value="#{welcomeBean.usd}" />
+            <h:commandButton value="Convertir USD vers IRD" action="#{welcomeBean.convertUsdToIrd()}" /><br/>
+           <h:outputText value="#{welcomeBean.usdToIrdMessage}" />
+            <br />
+            <br/>
+
+            <label for="irdMontant" >Montant en IRD: </label>
+            <h:inputText id="irdMontant" value="#{welcomeBean.ird}"/>
+            <h:commandButton value="Convertir IRD vers USD" action="#{welcomeBean.convertIrdToUsd()}" /><br/>
+            <h:outputText value="#{welcomeBean.irdToUsdMessage}" />
+        </h:form>
+    </body>
+</html>
