@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Lieux</title>
+    </h:head>
+    <h:body>
+        <div class="max-w-3xl mx-auto p-6">
+            <h1 class="text-3xl mb-4">Lieux</h1>
+
+            <h:form>
+                <h:messages globalOnly="true" />
+
+                <div class="mb-3">
+                    <label for="name">Nom</label><br/>
+                    <h:inputText id="name" value="#{welcomeBean.nameLieu}" style="width:100%" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="description">Description</label><br/>
+                    <h:inputTextarea id="description" value="#{welcomeBean.description}" rows="3" cols="50" style="width:100%" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="latitude">Latitude</label><br/>
+                    <h:inputText id="latitude" value="#{welcomeBean.latitude}" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="longitude">Longitude</label><br/>
+                    <h:inputText id="longitude" value="#{welcomeBean.longitude}" />
+                </div>
+
+                <div>
+                    <h:commandButton value="Ajouter" action="#{welcomeBean.addLieu()}" />
+                </div>
+            </h:form>
+
+            <br />
+            <h:form>
+                <h:commandButton value="À propos" action="a_propos" />
+            </h:form>
+
+            <hr/>
+
+            <h2 class="text-xl mt-6 mb-3">Liste des lieux</h2>
+            <h:dataTable value="#{welcomeBean.lieux}" var="l" border="1" cellpadding="6">
+                <h:column>
+                    <f:facet name="header">Nom</f:facet>
+                    #{l.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Description</f:facet>
+                    #{l.description}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Latitude</f:facet>
+                    #{l.latitude}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Longitude</f:facet>
+                    #{l.longitude}
+                </h:column>
+            </h:dataTable>
+        </div>
+    </h:body>
+</html>

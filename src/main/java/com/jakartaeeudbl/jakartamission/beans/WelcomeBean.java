@@ -4,6 +4,12 @@
  */
 package com.jakartaeeudbl.jakartamission.beans;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.jakartaeeudbl.jakartamission.entities.Lieu;
+
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 
@@ -13,7 +19,7 @@ import jakarta.inject.Named;
  */
 
 @RequestScoped
-@Named
+@Named("welcomeBean")
 public class WelcomeBean {
     private String name;    
     private String message;
@@ -82,4 +88,46 @@ public class WelcomeBean {
         double result = this.ird * RATE;
         this.irdToUsdMessage = String.format("Montant en USD = %.2f",result);
     }
+
+
+
+    // Lieux 
+
+
+    private String nameLieu;
+    private String description;
+    private Double latitude;
+    private Double longitude;
+
+    // simple in-memory storage for demo purposes
+    private static final List<Lieu> LIEUX = Collections.synchronizedList(new ArrayList<>());
+
+    public String addLieu() {
+        Lieu l = new Lieu(nameLieu, description, latitude, longitude);
+        LIEUX.add(l);
+        // clear fields after add
+        this.nameLieu = null;
+        this.description = null;
+        this.latitude = null;
+        this.longitude = null;
+        // stay on the same page (redirect to avoid duplicate submission)
+        return "lieu?faces-redirect=true";
+    }
+
+    public List<Lieu> getLieux() {
+        return LIEUX;
+    }
+
+    // getters / setters for form binding
+    public String getNameLieu() { return nameLieu; }
+    public void setNameLieu(String nameLieu) { this.nameLieu = nameLieu; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public Double getLatitude() { return latitude; }
+    public void setLatitude(Double latitude) { this.latitude = latitude; }
+
+    public Double getLongitude() { return longitude; }
+    public void setLongitude(Double longitude) { this.longitude = longitude; }
 }
