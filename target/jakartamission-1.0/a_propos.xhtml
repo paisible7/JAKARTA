@@ -1,13 +1,109 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html">
-    <h:head>
-        <title>A Propos</title>
-    </h:head>
-    <h:body>
-        <div class="flex items-center justify-center min-h-screen bg-gray-100">
-            <h1 class="text-3xl">A propos</h1>
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>A propos de Jakarta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</h:head>
+
+<h:body class="min-h-screen relative flex items-center justify-center overflow-hidden">
+
+    <div class="absolute inset-0 bg-cover bg-center scale-110"
+         style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');">
+    </div>
+
+    <div class="absolute inset-0 backdrop-blur-md bg-black/25"></div>
+
+    <div class="relative z-10 w-full max-w-3xl p-10 rounded-3xl
+                bg-black/40 backdrop-blur-2xl
+                border border-white/30
+                shadow-[0_20px_60px_rgba(0,0,0,0.45)]
+                text-white">
+
+        <div class="text-center mb-8">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_Indonesia.svg"
+                 alt="Indonesie"
+                 class="w-28 mx-auto mb-4 rounded-xl
+                        border border-white/40 shadow-lg"/>
+
+            <h1 class="text-3xl font-bold">
+                A propos de Jakarta
+            </h1>
+
+            <p class="text-white/80 mt-2 text-sm">
+                Capitale dynamique et coeur economique de l’Indonesie
+            </p>
         </div>
-    </h:body>
+
+        <div class="space-y-6 text-white/90 leading-relaxed">
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2">Presentation</h2>
+                <p>
+                    Jakarta est la capitale de l’Indonesie et l’une des plus
+                    grandes metropoles d’Asie du Sud-Est. Elle constitue le
+                    centre politique, economique et culturel du pays.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2">Culture et diversite</h2>
+                <p>
+                    Ville multiculturelle, Jakarta rassemble des populations
+                    venues de toutes les regions de l’archipel indonesien.
+                    Cette diversite se reflete dans la langue, la gastronomie
+                    et les traditions locales.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2">Economie et modernite</h2>
+                <p>
+                    Jakarta est le principal centre financier du pays.
+                    Elle abrite de nombreuses entreprises, institutions
+                    gouvernementales et infrastructures modernes.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2">Lieux emblematiques</h2>
+                <p>
+                    La ville possede de nombreux sites importants tels que
+                    le Monumen Nasional, Kota Tua, la mosquee Istiqlal et
+                    les quartiers modernes de Sudirman et Thamrin.
+                </p>
+            </section>
+
+        </div>
+
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+
+            <h:form>
+                <h:commandButton value="Retour a l accueil"
+                                 action="home"
+                                 styleClass="px-6 py-3 rounded-xl
+                                             bg-white/20 backdrop-blur-md
+                                             border border-white/30
+                                             hover:bg-white/30
+                                             transition"/>
+            </h:form>
+
+            <h:form>
+                <h:commandButton value="Explorer les lieux"
+                                 action="lieu"
+                                 styleClass="px-6 py-3 rounded-xl font-semibold
+                                             bg-gradient-to-r from-red-600/90 to-red-500/90
+                                             hover:from-red-700 hover:to-red-600
+                                             shadow-xl transition"/>
+            </h:form>
+
+        </div>
+
+    </div>
+
+</h:body>
 </html>

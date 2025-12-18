@@ -1,69 +1,163 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="jakarta.faces.html"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Lieux</title>
-    </h:head>
-    <h:body>
-        <div class="max-w-3xl mx-auto p-6">
-            <h1 class="text-3xl mb-4">Lieux</h1>
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-            <h:form>
-                <h:messages globalOnly="true" />
+<h:head>
+    <title>Lieux – Jakarta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</h:head>
 
-                <div class="mb-3">
-                    <label for="name">Nom</label><br/>
-                    <h:inputText id="name" value="#{welcomeBean.nameLieu}" style="width:100%" />
-                </div>
+<h:body class="min-h-screen relative flex items-center justify-center overflow-hidden">
 
-                <div class="mb-3">
-                    <label for="description">Description</label><br/>
-                    <h:inputTextarea id="description" value="#{welcomeBean.description}" rows="3" cols="50" style="width:100%" />
-                </div>
+    <div class="absolute inset-0 bg-cover bg-center scale-110"
+         style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');">
+    </div>
 
-                <div class="mb-3">
-                    <label for="latitude">Latitude</label><br/>
-                    <h:inputText id="latitude" value="#{welcomeBean.latitude}" />
-                </div>
+    <div class="absolute inset-0 backdrop-blur-md bg-black/25"></div>
 
-                <div class="mb-3">
-                    <label for="longitude">Longitude</label><br/>
-                    <h:inputText id="longitude" value="#{welcomeBean.longitude}" />
+    <div class="relative z-10 w-50 max-w-4xl p-10 rounded-3xl
+                bg-black/40 backdrop-blur-2xl
+                border border-white/30
+                shadow-[0_20px_60px_rgba(0,0,0,0.4)]
+                text-white">
+
+        <h1 class="text-3xl font-bold mb-8 text-center drop-shadow-lg">
+            Gestion des lieux
+        </h1>
+
+        <h:form class="space-y-6">
+
+            <h:messages globalOnly="true"
+                        styleClass="block mb-4 text-red-200"/>
+
+            <!-- Nom -->
+            <div>
+                <label for="name" class="block mb-1 text-sm font-medium">
+                    Nom du lieu
+                </label>
+                <h:inputText id="name"
+                             value="#{lieuBean.nom}"
+                             styleClass="w-full px-4 py-3 rounded-xl
+                                         bg-white/20 backdrop-blur-md
+                                         border border-white/30
+                                         text-white placeholder-white/70
+                                         focus:outline-none focus:ring-2 focus:ring-red-500"/>
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label for="description" class="block mb-1 text-sm font-medium">
+                    Description
+                </label>
+                <h:inputTextarea id="description"
+                                 value="#{lieuBean.description}"
+                                 rows="3"
+                                 styleClass="w-full px-4 py-3 rounded-xl
+                                             bg-white/20 backdrop-blur-md
+                                             border border-white/30
+                                             text-white
+                                             focus:outline-none focus:ring-2 focus:ring-red-500"/>
+            </div>
+
+            <!-- Latitude & Longitude -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="latitude" class="block mb-1 text-sm font-medium">
+                        Latitude
+                    </label>
+                    <h:inputText id="latitude"
+                                 value="#{lieuBean.latitude}"
+                                 styleClass="w-full px-4 py-3 rounded-xl
+                                             bg-white/20 backdrop-blur-md
+                                             border border-white/30
+                                             text-white
+                                             focus:outline-none focus:ring-2 focus:ring-red-500"/>
                 </div>
 
                 <div>
-                    <h:commandButton value="Ajouter" action="#{welcomeBean.addLieu()}" />
+                    <label for="longitude" class="block mb-1 text-sm font-medium">
+                        Longitude
+                    </label>
+                    <h:inputText id="longitude"
+                                 value="#{lieuBean.longitude}"
+                                 styleClass="w-full px-4 py-3 rounded-xl
+                                             bg-white/20 backdrop-blur-md
+                                             border border-white/30
+                                             text-white
+                                             focus:outline-none focus:ring-2 focus:ring-red-500"/>
                 </div>
-            </h:form>
+            </div>
 
-            <br />
+            <!-- Bouton -->
+            <div class="pt-4">
+                <h:commandButton value="Ajouter le lieu"
+                                 action="#{lieuBean.ajouterLieu()}"
+                                 styleClass="w-full py-4 rounded-2xl font-semibold
+                                             bg-gradient-to-r from-red-600/90 to-red-500/90
+                                             hover:from-red-700 hover:to-red-600
+                                             shadow-xl transition duration-300"/>
+            </div>
+
+        </h:form>
+
+        <div class="mt-6 text-center">
             <h:form>
-                <h:commandButton value="À propos" action="a_propos" />
+                <h:commandButton value="À propos"
+                                 action="a_propos"
+                                 styleClass="px-6 py-2 rounded-xl
+                                             bg-white/20 backdrop-blur-md
+                                             border border-white/30
+                                             hover:bg-white/30 transition"/>
             </h:form>
+        </div>
 
-            <hr/>
+        <h2 class="text-2xl font-semibold mt-10 mb-4 drop-shadow">
+            Liste des lieux
+        </h2>
 
-            <h2 class="text-xl mt-6 mb-3">Liste des lieux</h2>
-            <h:dataTable value="#{welcomeBean.lieux}" var="l" border="1" cellpadding="6">
+        <div class="overflow-x-auto rounded-lg
+                    bg-white/10 backdrop-blur-md
+                    border border-white/20 p-2">
+
+            <h:dataTable value="#{lieuBean.lieux}" var="l"
+                         styleClass="w-full text-sm">
+
                 <h:column>
-                    <f:facet name="header">Nom</f:facet>
-                    #{l.name}
+                    <f:facet name="header">
+                        <span class="font-semibold">Nom</span>
+                    </f:facet>
+                    #{l.nom}
                 </h:column>
+
                 <h:column>
-                    <f:facet name="header">Description</f:facet>
+                    <f:facet name="header">
+                        <span class="font-semibold">Description</span>
+                    </f:facet>
                     #{l.description}
                 </h:column>
+
                 <h:column>
-                    <f:facet name="header">Latitude</f:facet>
+                    <f:facet name="header">
+                        <span class="font-semibold">Latitude</span>
+                    </f:facet>
                     #{l.latitude}
                 </h:column>
+
                 <h:column>
-                    <f:facet name="header">Longitude</f:facet>
+                    <f:facet name="header">
+                        <span class="font-semibold">Longitude</span>
+                    </f:facet>
                     #{l.longitude}
                 </h:column>
+
             </h:dataTable>
+
         </div>
-    </h:body>
+
+    </div>
+
+</h:body>
 </html>
