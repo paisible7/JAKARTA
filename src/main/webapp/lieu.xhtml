@@ -6,157 +6,219 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-    <title>Lieux – Jakarta</title>
+    <title>Lieux Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hover-row tr { transition: all 0.2s; }
+        .hover-row tr:hover { background-color: rgba(255, 255, 255, 0.08); }
+
+        /* Actions visibles uniquement au survol sur PC */
+        @media (min-width: 1024px) {
+            .action-btns { opacity: 0; transition: opacity 0.2s; }
+            tr:hover .action-btns { opacity: 1; }
+        }
+
+        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(220, 38, 38, 0.5); border-radius: 10px; }
+
+        /* Animation d'apparition douce */
+        .fade-in-scale { animation: fadeInScale 0.3s ease-out forwards; }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+    
+    <script type="text/javascript">
+        // Fonction pour ouvrir une modale
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.getElementById(modalId).classList.add('flex');
+        }
+
+        // Fonction pour fermer une modale
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.getElementById(modalId).classList.remove('flex');
+        }
+
+        // Ferme la modale si on clique sur l'overlay (la zone sombre)
+        function closeModalOnOutsideClick(event, modalId) {
+            if (event.target === event.currentTarget) {
+                closeModal(modalId);
+            }
+        }
+    </script>
 </h:head>
 
-<h:body class="min-h-screen relative flex items-center justify-center overflow-hidden">
+<h:body class="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col items-center justify-center p-4 md:p-8 bg-cover bg-center"
+        style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');">
 
-    <div class="absolute inset-0 bg-cover bg-center scale-110"
-         style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');">
+    <div class="fixed inset-0 backdrop-blur-md bg-black/50 -z-10"></div>
+
+    <div class="flex flex-col lg:flex-row w-full max-w-[1600px] lg:h-[80vh] gap-4 lg:gap-[5%] items-stretch justify-center relative z-10">
+
+        <div class="w-full lg:w-[25%] flex flex-col p-6 md:p-8 rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/20 shadow-2xl text-white">
+            <h2 class="text-2xl md:text-3xl font-black tracking-tighter mb-6">Ajouter un lieu</h2>
+            
+            <h:form class="space-y-4">
+                <div>
+                    <label class="block text-[10px] uppercase opacity-60 mb-1 font-bold italic">Nom</label>
+                    <h:inputText value="#{lieuBean.nom}" styleClass="w-full px-4 py-2.5 rounded-xl bg-white/10 border border-white/10 text-sm outline-none focus:ring-2 focus:ring-red-600 transition"/>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase opacity-60 mb-1 font-bold italic">Description</label>
+                    <h:inputTextarea value="#{lieuBean.description}" rows="2" styleClass="w-full px-4 py-2.5 rounded-xl bg-white/10 border border-white/10 text-sm outline-none focus:ring-2 focus:ring-red-600 transition"/>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <h:inputText value="#{lieuBean.latitude}" placeholder="Lat" styleClass="w-full px-2 py-2 rounded-lg bg-white/10 border border-white/10 text-xs text-center"/>
+                    <h:inputText value="#{lieuBean.longitude}" placeholder="Long" styleClass="w-full px-2 py-2 rounded-lg bg-white/10 border border-white/10 text-xs text-center"/>
+                </div>
+                <h:commandButton value="ENREGISTRER" action="#{lieuBean.ajouterLieu()}"
+                                 styleClass="w-full py-4 rounded-2xl font-black bg-red-600 hover:bg-red-500 transition shadow-lg text-xs cursor-pointer active:scale-95"/>
+            </h:form>
+
+            <div class="mt-8 hidden sm:block overflow-hidden">
+                <h3 class="text-[10px] uppercase tracking-widest text-red-400/60 mb-4 font-bold">Derniers ajouts</h3>
+                <h:dataTable value="#{lieuBean.lieux}" var="l" rows="3" styleClass="w-full text-xs">
+                    <h:column>
+                        <div class="py-2 border-b border-white/5 opacity-70">
+                            <div class="font-bold">#{l.nom}</div>
+                            <div class="text-[9px] font-mono italic">#{l.latitude} / #{l.longitude}</div>
+                        </div>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-[70%] flex flex-col rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/20 shadow-2xl text-white overflow-hidden min-h-[500px] lg:min-h-0">
+            
+            <div class="p-6 md:p-8 pb-4">
+                <h2 class="text-2xl md:text-3xl font-black tracking-tighter">Lieux</h2>
+            </div>
+
+            <div class="flex-grow overflow-x-auto lg:overflow-y-auto custom-scroll mx-4 md:mx-8 mb-8 rounded-2xl border border-white/10 bg-black/20">
+                <h:form id="listeForm">
+                    <h:dataTable value="#{lieuBean.lieux}" var="l"
+                                 styleClass="w-full min-w-[600px] border-collapse hover-row"
+                                 headerClass="sticky top-0 z-10 bg-red-600 text-left text-[11px] font-black uppercase tracking-wider py-5 px-6 border-b border-red-700 text-white"
+                                 columnClasses="py-5 px-6 border-b border-white/5, 
+                                                py-5 px-6 border-b border-white/5 text-sm italic text-white/70, 
+                                                py-5 px-6 border-b border-white/5 font-mono text-xs text-red-200/50, 
+                                                py-5 px-6 border-b border-white/5 font-mono text-xs text-red-200/50, 
+                                                py-5 px-6 border-b border-white/5 text-right">
+
+                        <h:column><f:facet name="header">Désignation</f:facet><span class="font-bold text-white">#{l.nom}</span></h:column>
+                        <h:column><f:facet name="header">Description</f:facet><span class="line-clamp-1">#{l.description}</span></h:column>
+                        <h:column><f:facet name="header">Latitude</f:facet>#{l.latitude}</h:column>
+                        <h:column><f:facet name="header">Longitude</f:facet>#{l.longitude}</h:column>
+
+                        <h:column>
+                            <f:facet name="header">Actions</f:facet>
+                            <div class="action-btns flex justify-end gap-2">
+                                <h:commandLink action="#{lieuBean.preparerModifier(l)}" 
+                                               styleClass="p-2 rounded-lg bg-white/5 hover:bg-blue-600 text-white transition-all"
+                                               oncomplete="openModal('editModalWrapper');">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
+                                    <f:ajax render="@this"/>
+                                </h:commandLink>
+
+                                <h:commandLink action="#{lieuBean.preparerModifier(l)}" 
+                                               styleClass="p-2 rounded-lg bg-white/5 hover:bg-red-600 text-white transition-all"
+                                               oncomplete="openModal('deleteModalWrapper');">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    <f:ajax render="@this"/>
+                                </h:commandLink>
+                            </div>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+        </div>
     </div>
 
-    <div class="absolute inset-0 backdrop-blur-md bg-black/25"></div>
-
-    <div class="relative z-10 w-50 max-w-4xl p-10 rounded-3xl
-                bg-black/40 backdrop-blur-2xl
-                border border-white/30
-                shadow-[0_20px_60px_rgba(0,0,0,0.4)]
-                text-white">
-
-        <h1 class="text-3xl font-bold mb-8 text-center drop-shadow-lg">
-            Gestion des lieux
-        </h1>
-
-        <h:form class="space-y-6">
-
-            <h:messages globalOnly="true"
-                        styleClass="block mb-4 text-red-200"/>
-
-            <!-- Nom -->
-            <div>
-                <label for="name" class="block mb-1 text-sm font-medium">
-                    Nom du lieu
-                </label>
-                <h:inputText id="name"
-                             value="#{lieuBean.nom}"
-                             styleClass="w-full px-4 py-3 rounded-xl
-                                         bg-white/20 backdrop-blur-md
-                                         border border-white/30
-                                         text-white placeholder-white/70
-                                         focus:outline-none focus:ring-2 focus:ring-red-500"/>
-            </div>
-
-            <!-- Description -->
-            <div>
-                <label for="description" class="block mb-1 text-sm font-medium">
-                    Description
-                </label>
-                <h:inputTextarea id="description"
-                                 value="#{lieuBean.description}"
-                                 rows="3"
-                                 styleClass="w-full px-4 py-3 rounded-xl
-                                             bg-white/20 backdrop-blur-md
-                                             border border-white/30
-                                             text-white
-                                             focus:outline-none focus:ring-2 focus:ring-red-500"/>
-            </div>
-
-            <!-- Latitude & Longitude -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Modale Édition (Globale) -->
+    <div id="editModalWrapper" onclick="closeModalOnOutsideClick(event, 'editModalWrapper')"
+         class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity">
+        
+        <div class="fade-in-scale w-full max-w-lg bg-[#121212] border border-white/10 rounded-3xl p-8 shadow-[0_0_50px_rgba(0,0,0,0.8)] text-white relative">
+            <button onclick="closeModal('editModalWrapper')" 
+                    class="absolute top-4 right-4 text-white/50 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            
+            <h2 class="text-2xl font-black mb-6 tracking-tight text-blue-500">Modifier le lieu</h2>
+            
+            <h:form id="modalEditForm" class="space-y-5">
                 <div>
-                    <label for="latitude" class="block mb-1 text-sm font-medium">
-                        Latitude
-                    </label>
-                    <h:inputText id="latitude"
-                                 value="#{lieuBean.latitude}"
-                                 styleClass="w-full px-4 py-3 rounded-xl
-                                             bg-white/20 backdrop-blur-md
-                                             border border-white/30
-                                             text-white
-                                             focus:outline-none focus:ring-2 focus:ring-red-500"/>
+                    <label class="block text-[10px] uppercase opacity-50 mb-1 font-bold">Nom</label>
+                    <h:inputText value="#{lieuBean.nom}" styleClass="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 outline-none focus:ring-2 focus:ring-blue-600 transition"/>
                 </div>
-
                 <div>
-                    <label for="longitude" class="block mb-1 text-sm font-medium">
-                        Longitude
-                    </label>
-                    <h:inputText id="longitude"
-                                 value="#{lieuBean.longitude}"
-                                 styleClass="w-full px-4 py-3 rounded-xl
-                                             bg-white/20 backdrop-blur-md
-                                             border border-white/30
-                                             text-white
-                                             focus:outline-none focus:ring-2 focus:ring-red-500"/>
+                    <label class="block text-[10px] uppercase opacity-50 mb-1 font-bold">Description</label>
+                    <h:inputTextarea value="#{lieuBean.description}" rows="3" styleClass="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 outline-none focus:ring-2 focus:ring-blue-600 transition"/>
                 </div>
-            </div>
-
-            <!-- Bouton -->
-            <div class="pt-4">
-                <h:commandButton value="Ajouter le lieu"
-                                 action="#{lieuBean.ajouterLieu()}"
-                                 styleClass="w-full py-4 rounded-2xl font-semibold
-                                             bg-gradient-to-r from-red-600/90 to-red-500/90
-                                             hover:from-red-700 hover:to-red-600
-                                             shadow-xl transition duration-300"/>
-            </div>
-
-        </h:form>
-
-        <div class="mt-6 text-center">
-            <h:form>
-                <h:commandButton value="À propos"
-                                 action="a_propos"
-                                 styleClass="px-6 py-2 rounded-xl
-                                             bg-white/20 backdrop-blur-md
-                                             border border-white/30
-                                             hover:bg-white/30 transition"/>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] uppercase opacity-50 mb-1 font-bold">Latitude</label>
+                        <h:inputText value="#{lieuBean.latitude}" styleClass="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-center text-sm"/>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase opacity-50 mb-1 font-bold">Longitude</label>
+                        <h:inputText value="#{lieuBean.longitude}" styleClass="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-center text-sm"/>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="closeModal('editModalWrapper')" 
+                            class="flex-1 py-3 rounded-xl font-bold bg-white/5 hover:bg-white/10 transition uppercase text-xs tracking-widest text-white/60 hover:text-white">
+                        Annuler
+                    </button>
+                    <h:commandButton value="Enregistrer" action="#{lieuBean.modifierLieu()}"
+                                     onSuccess="closeModal('editModalWrapper');"
+                                     styleClass="flex-1 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 transition shadow-lg uppercase text-xs tracking-widest cursor-pointer">
+                        <f:ajax render=":listeForm"/>
+                    </h:commandButton>
+                </div>
             </h:form>
         </div>
+    </div>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-4 drop-shadow">
-            Liste des lieux
-        </h2>
-
-        <div class="overflow-x-auto rounded-lg
-                    bg-white/10 backdrop-blur-md
-                    border border-white/20 p-2">
-
-            <h:dataTable value="#{lieuBean.lieux}" var="l"
-                         styleClass="w-full text-sm">
-
-                <h:column>
-                    <f:facet name="header">
-                        <span class="font-semibold">Nom</span>
-                    </f:facet>
-                    #{l.nom}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <span class="font-semibold">Description</span>
-                    </f:facet>
-                    #{l.description}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <span class="font-semibold">Latitude</span>
-                    </f:facet>
-                    #{l.latitude}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <span class="font-semibold">Longitude</span>
-                    </f:facet>
-                    #{l.longitude}
-                </h:column>
-
-            </h:dataTable>
-
+    <!-- Modale Suppression (Globale) -->
+    <div id="deleteModalWrapper" onclick="closeModalOnOutsideClick(event, 'deleteModalWrapper')"
+         class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity">
+        
+        <div class="fade-in-scale w-full max-w-sm bg-[#121212] border border-white/10 rounded-3xl p-8 shadow-[0_0_50px_rgba(220,38,38,0.2)] text-white text-center">
+            <div class="w-16 h-16 bg-red-900/30 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+            </div>
+            
+            <h:form id="modalDeleteForm">
+                <h2 class="text-xl font-black mb-2 text-white">Supprimer <span class="text-red-500">#{lieuBean.lieuSelectionne.nom}</span> ?</h2>
+                <p class="text-sm opacity-50 mb-8 leading-relaxed">Cette action est définitive et ne peut pas être annulée.</p>
+                
+                <div class="flex flex-col gap-3">
+                    <h:commandButton value="CONFIRMER LA SUPPRESSION" action="#{lieuBean.supprimerLieu()}"
+                                     onSuccess="closeModal('deleteModalWrapper');"
+                                     styleClass="w-full py-3.5 rounded-xl font-bold bg-red-600 hover:bg-red-500 transition shadow-lg text-xs tracking-widest cursor-pointer">
+                        <f:ajax render=":listeForm"/>
+                    </h:commandButton>
+                    
+                    <button type="button" onclick="closeModal('deleteModalWrapper')" 
+                            class="w-full py-3.5 rounded-xl font-bold bg-transparent hover:bg-white/5 transition text-xs tracking-widest text-white/40 hover:text-white">
+                        ANNULER
+                    </button>
+                </div>
+            </h:form>
         </div>
-
     </div>
 
 </h:body>

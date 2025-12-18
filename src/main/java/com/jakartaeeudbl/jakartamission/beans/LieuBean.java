@@ -25,6 +25,8 @@ public class LieuBean implements Serializable{
     private String description;
     private double longitude;
     private double latitude;
+    
+    private Lieu lieuSelectionne; // Pour l'édition/suppression
 
     @Inject
     private LieuEntrepriseBean lieuEntrepriseBean;
@@ -40,12 +42,52 @@ public class LieuBean implements Serializable{
 
     public double getLatitude() { return latitude; }
     public void setLatitude(double latitude) { this.latitude = latitude; }
+    
+    public Lieu getLieuSelectionne() { return lieuSelectionne; }
+    public void setLieuSelectionne(Lieu lieu) { this.lieuSelectionne = lieu; }
 
     public List<Lieu> getLieux() { return lieuEntrepriseBean.listerTousLesLieux(); }
 
     public void ajouterLieu() {
         if (nom != null && !nom.isEmpty() && description != null && !description.isEmpty()) {
             lieuEntrepriseBean.ajouterLieuEntreprise(nom, description, latitude, longitude);
+            // Nettoyer le formulaire après ajout
+            nom = null;
+            description = null;
+            latitude = 0;
+            longitude = 0;
+        }
+    }
+    
+    public void preparerModifier(Lieu lieu) {
+        this.lieuSelectionne = lieu;
+        this.nom = lieu.getNom();
+        this.description = lieu.getDescription();
+        this.latitude = lieu.getLatitude();
+        this.longitude = lieu.getLongitude();
+    }
+    
+    public void modifierLieu() {
+        if (lieuSelectionne != null && nom != null && !nom.isEmpty() && description != null && !description.isEmpty()) {
+            lieuEntrepriseBean.modifierLieu(lieuSelectionne.getId(), nom, description, latitude, longitude);
+            // Nettoyer après modification
+            lieuSelectionne = null;
+            nom = null;
+            description = null;
+            latitude = 0;
+            longitude = 0;
+        }
+    }
+    
+    public void supprimerLieu() {
+        if (lieuSelectionne != null) {
+            lieuEntrepriseBean.supprimerLieu(lieuSelectionne.getId());
+            // Nettoyer après suppression
+            lieuSelectionne = null;
+            nom = null;
+            description = null;
+            latitude = 0;
+            longitude = 0;
         }
     }
 }

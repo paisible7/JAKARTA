@@ -45,6 +45,18 @@ public class LieuEntrepriseBean {
     public Lieu trouverLieuParId(int id) {
         return em.find(Lieu.class, id);
     }
+    
+    @Transactional
+    public void modifierLieu(int id, String nom, String description, double latitude, double longitude) {
+        Lieu lieu = em.find(Lieu.class, id);
+        if (lieu != null) {
+            lieu.setNom(nom);
+            lieu.setDescription(description);
+            lieu.setLatitude(latitude);
+            lieu.setLongitude(longitude);
+            em.merge(lieu);
+        }
+    }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
