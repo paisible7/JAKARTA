@@ -4,45 +4,73 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      >
-    <head>
-        <title>JAKARTA MISSION</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <h2>
-            Entrer un nom : 
-        </h2>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:f="jakarta.faces.core">
+
+<head>
+    <title>JAKARTA MISSION</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <h:messages globalOnly="true" style="color: red;" />
+
+    <h2>
+        Entrer un nom :
+    </h2>
 
 
-        <h:form>
-            <h:inputText id="name" value="#{welcomeBean.name}" required="true"/>
-            <h:commandButton value="envoyer" action="#{welcomeBean.afficher()}" />
-        </h:form>
+    <h:form>
+        <h:outputLabel for="username" value="Nom d'utilisateur :" />
+        <h:inputText id="username" value="#{utilisateurBean.username}" required="true"
+            requiredMessage="Le nom d'utilisateur est obligatoire."
+            validatorMessage="Le nom d'utilisateur doit avoir entre 3 et 50 caractères.">
+            <f:validateLength minimum="3" maximum="50" />
+        </h:inputText>
+        <h:message for="username" style="color: red;" />
+        <br />
 
-        <h:outputText value="#{welcomeBean.message}" />
-        <hr />
-        <h1>Convertisseur de monnaie</h1>
-        <h:form>
-            <label for="usdMontant" >Montant en USD: </label>
-            <h:inputText id="usdMontant" value="#{welcomeBean.usd}" />
-            <h:commandButton value="Convertir USD vers IRD" action="#{welcomeBean.convertUsdToIrd()}" /><br/>
-           <h:outputText value="#{welcomeBean.usdToIrdMessage}" />
-            <br />
-            <br/>
+        <h:outputLabel for="password" value="Mot de passe :" />
+        <h:inputSecret id="password" value="#{utilisateurBean.password}" required="true"
+            requiredMessage="Le mot de passe est obligatoire."
+            validatorMessage="Le mot de passe doit contenir au moins 8 caractères.">
+            <f:validateLength minimum="8" />
+        </h:inputSecret>
+        <h:message for="password" style="color: red;" />
+        <br />
 
-            <label for="irdMontant" >Montant en IRD: </label>
-            <h:inputText id="irdMontant" value="#{welcomeBean.ird}"/>
-            <h:commandButton value="Convertir IRD vers USD" action="#{welcomeBean.convertIrdToUsd()}" /><br/>
-            <h:outputText value="#{welcomeBean.irdToUsdMessage}" />
-        </h:form>
-                <hr />
+        <h:outputLabel for="name" value="Nom : " />
+        <h:inputText id="name" value="#{welcomeBean.name}" required="true" requiredMessage="Le nom est obligatoire." />
+        <h:message for="name" style="color: red;" />
 
-        <h:form>
-            
-            <h:commandButton value="Découvrir" action="home" />
-        </h:form>
-    </body>
+        <h:commandButton value="envoyer" action="#{welcomeBean.afficher()}" />
+    </h:form>
+
+    <h:outputText value="#{welcomeBean.message}" />
+    <hr />
+    <h1>Convertisseur de monnaie</h1>
+    <h:form>
+        <h:outputLabel for="usdMontant" value="Montant en USD: " />
+        <h:inputText id="usdMontant" value="#{welcomeBean.usd}" required="true" />
+        <h:message for="usdMontant" style="color: red;" />
+
+        <h:commandButton value="Convertir USD vers IRD" action="#{welcomeBean.convertUsdToIrd()}" /><br />
+        <h:outputText value="#{welcomeBean.usdToIrdMessage}" />
+        <br />
+        <br />
+
+        <h:outputLabel for="irdMontant" value="Montant en IRD: " />
+        <h:inputText id="irdMontant" value="#{welcomeBean.ird}" required="true" />
+        <h:message for="irdMontant" style="color: red;" />
+
+        <h:commandButton value="Convertir IRD vers USD" action="#{welcomeBean.convertIrdToUsd()}" /><br />
+        <h:outputText value="#{welcomeBean.irdToUsdMessage}" />
+    </h:form>
+    <hr />
+
+    <h:form>
+
+        <h:commandButton value="Découvrir" action="home" />
+    </h:form>
+</body>
+
 </html>
