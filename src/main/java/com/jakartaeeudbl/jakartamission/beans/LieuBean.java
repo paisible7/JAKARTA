@@ -6,7 +6,8 @@ package com.jakartaeeudbl.jakartamission.beans;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import com.jakartaeeudbl.jakartamission.business.LieuEntrepriseBean;
  * @author paisible
  */
 @Named(value = "lieuBean")
-@RequestScoped
+@ViewScoped
 public class LieuBean implements Serializable{
 
     private String nom;
@@ -46,7 +47,9 @@ public class LieuBean implements Serializable{
     public Lieu getLieuSelectionne() { return lieuSelectionne; }
     public void setLieuSelectionne(Lieu lieu) { this.lieuSelectionne = lieu; }
 
-    public List<Lieu> getLieux() { return lieuEntrepriseBean.listerTousLesLieux(); }
+    public List<Lieu> getLieux() { 
+        return lieuEntrepriseBean.listerTousLesLieux(); 
+        }
 
     public void ajouterLieu() {
         if (nom != null && !nom.isEmpty() && description != null && !description.isEmpty()) {
@@ -67,17 +70,25 @@ public class LieuBean implements Serializable{
         this.longitude = lieu.getLongitude();
     }
     
-    public void modifierLieu() {
-        if (lieuSelectionne != null && nom != null && !nom.isEmpty() && description != null && !description.isEmpty()) {
-            lieuEntrepriseBean.modifierLieu(lieuSelectionne.getId(), nom, description, latitude, longitude);
-            // Nettoyer après modification
-            lieuSelectionne = null;
-            nom = null;
-            description = null;
-            latitude = 0;
-            longitude = 0;
-        }
+   public void modifierLieu() {
+    if (lieuSelectionne != null) {
+        lieuEntrepriseBean.modifierLieu(
+            lieuSelectionne.getId(),
+            lieuSelectionne.getNom(),
+            lieuSelectionne.getDescription(),
+            lieuSelectionne.getLatitude(),
+            lieuSelectionne.getLongitude()
+        );
+        lieuSelectionne = null;
     }
+   }
+
+
+    public void preparerSupprimer(Lieu l) {
+    
+    this.lieuSelectionne = l;
+    }
+
     
     public void supprimerLieu() {
         if (lieuSelectionne != null) {
