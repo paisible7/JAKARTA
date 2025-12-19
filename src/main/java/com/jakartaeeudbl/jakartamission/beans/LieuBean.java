@@ -74,12 +74,16 @@ public class LieuBean implements Serializable{
     if (lieuSelectionne != null) {
         lieuEntrepriseBean.modifierLieu(
             lieuSelectionne.getId(),
-            lieuSelectionne.getNom(),
-            lieuSelectionne.getDescription(),
-            lieuSelectionne.getLatitude(),
-            lieuSelectionne.getLongitude()
+            nom,
+            description,
+            latitude,
+            longitude,
         );
         lieuSelectionne = null;
+        nom = null;
+        description = null;
+        latitude = 0;
+        longitude = 0;  
     }
    }
 
