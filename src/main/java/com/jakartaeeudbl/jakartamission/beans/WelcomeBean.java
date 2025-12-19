@@ -25,6 +25,8 @@ public class WelcomeBean {
     private Double ird;
     private String usdToIrdMessage;
     private String irdToUsdMessage;
+    private String email;
+    private String password;
     private static final double RATE = 16669.00;
 
     public String getName(){
@@ -63,8 +65,29 @@ public class WelcomeBean {
         return irdToUsdMessage;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void afficher(){
         this.message = "Bienvenue, en indonésie cher " + this.name;
+    }
+
+    public String sAuthentifier() {
+        // Logique à implémenter à l'étape suivante
+        return null;
     }
 
 
