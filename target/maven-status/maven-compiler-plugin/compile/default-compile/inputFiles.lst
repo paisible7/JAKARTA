@@ -1,7 +1,10 @@
 /home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/beans/NavigationBean.java
 /home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/entities/Lieu.java
 /home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/JakartaRestConfiguration.java
+/home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/beans/UtilisateurBean.java
 /home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/beans/WelcomeBean.java
+/home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/entities/Utilisateur.java
 /home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/beans/LieuBean.java
 /home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/business/LieuEntrepriseBean.java
+/home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/business/UtilisateurEntrepriseBean.java
 /home/paisible/NetBeansProjects/jakartamission/src/main/java/com/jakartaeeudbl/jakartamission/resources/JakartaEE10Resource.java

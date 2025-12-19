@@ -4,7 +4,9 @@
  */
 package com.jakartaeeudbl.jakartamission.beans;
 
+import com.jakartaeeudbl.jakartamission.business.UtilisateurEntrepriseBean;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -22,6 +24,9 @@ import java.io.Serializable;
 @Named
 @RequestScoped
 public class UtilisateurBean implements Serializable {
+    
+    @Inject
+    private UtilisateurEntrepriseBean utilisateurEntrepriseBean;
     
     @NotBlank(message = "Le nom d'utilisateur est obligatoire")
     @Size(min = 3, max = 50, message = "Le nom d'utilisateur doit avoir entre 3 et"
@@ -88,16 +93,25 @@ public class UtilisateurBean implements Serializable {
    
     public void ajouterUtilisateur() {
         FacesContext context = FacesContext.getCurrentInstance();
+        
         // Vérifier si les mots de passe correspondent
         if (!password.equals(confirmPassword)) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Les mots de passe ne correspondent pas", null));
             return;
         }
-        // Ajout du message de succès si le mot de passe respecte les critères
+
+        // Vérifier si l'utilisateur existe déjà (email ou username)
+        if (utilisateurEntrepriseBean.trouverUtilisateurParEmail(email) != null || 
+            utilisateurEntrepriseBean.trouverUtilisateurParUsername(username) != null) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ce nom d'utilisateur ou cette adresse email existent déjà.", null));
+            return;
+        }
+
+        // Ajouter l'utilisateur (le hachage est géré dans le bean entreprise)
+        utilisateurEntrepriseBean.ajouterUtilisateurEntreprise(username, email, password, description);
+
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Utilisateur ajouté avec succès", null));
 
-        System.out.println("Utilisateur ajouté : " + username + " - " + email);
-       
         // Réinitialisation des champs
         username = "";
         email = "";
