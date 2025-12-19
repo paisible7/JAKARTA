@@ -24,8 +24,8 @@ public class LieuBean implements Serializable{
 
     private String nom;
     private String description;
-    private double longitude;
-    private double latitude;
+    private Double longitude;
+    private Double latitude;
     
     private Lieu lieuSelectionne; // Pour l'édition/suppression
 
@@ -38,11 +38,11 @@ public class LieuBean implements Serializable{
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public double getLongitude() { return longitude; }
-    public void setLongitude(double longitude) { this.longitude = longitude; }
+    public Double getLongitude() { return longitude; }
+    public void setLongitude(Double longitude) { this.longitude = longitude; }
 
-    public double getLatitude() { return latitude; }
-    public void setLatitude(double latitude) { this.latitude = latitude; }
+    public Double getLatitude() { return latitude; }
+    public void setLatitude(Double latitude) { this.latitude = latitude; }
     
     public Lieu getLieuSelectionne() { return lieuSelectionne; }
     public void setLieuSelectionne(Lieu lieu) { this.lieuSelectionne = lieu; }
@@ -57,8 +57,8 @@ public class LieuBean implements Serializable{
             // Nettoyer le formulaire après ajout
             nom = null;
             description = null;
-            latitude = 0;
-            longitude = 0;
+            latitude = null;
+            longitude = null;
         }
     }
     
@@ -77,13 +77,13 @@ public class LieuBean implements Serializable{
             nom,
             description,
             latitude,
-            longitude,
+            longitude
         );
         lieuSelectionne = null;
         nom = null;
         description = null;
-        latitude = 0;
-        longitude = 0;  
+        latitude = null;
+        longitude = null;  
     }
    }
 
@@ -101,8 +101,8 @@ public class LieuBean implements Serializable{
             lieuSelectionne = null;
             nom = null;
             description = null;
-            latitude = 0;
-            longitude = 0;
+            latitude = null;
+            longitude = null;
         }
     }
 }
