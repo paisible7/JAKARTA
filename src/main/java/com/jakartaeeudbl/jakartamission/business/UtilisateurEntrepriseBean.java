@@ -66,4 +66,12 @@ public class UtilisateurEntrepriseBean {
     public boolean verifierMotDePasse(String password, String hashedPassword) {
         return BCrypt.checkpw(password, hashedPassword);
     }
+
+    public Utilisateur authentifier(String email, String password) {
+        Utilisateur utilisateur = trouverUtilisateurParEmail(email);
+        if (utilisateur != null && verifierMotDePasse(password, utilisateur.getPassword())) {
+            return utilisateur;
+        }
+        return null;
+    }
 }

@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.jakartaeeudbl.jakartamission.business.UtilisateurEntrepriseBean;
+import com.jakartaeeudbl.jakartamission.entities.Utilisateur;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 /**
@@ -19,6 +24,9 @@ import jakarta.inject.Named;
 @RequestScoped
 @Named("welcomeBean")
 public class WelcomeBean {
+
+    @Inject
+    private UtilisateurEntrepriseBean utilisateurEntrepriseBean;
     private String name;    
     private String message;
     private Double usd;
@@ -86,8 +94,16 @@ public class WelcomeBean {
     }
 
     public String sAuthentifier() {
-        // Logique à implémenter à l'étape suivante
-        return null;
+        Utilisateur utilisateur = utilisateurEntrepriseBean.authentifier(email, password);
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if (utilisateur != null) {
+            this.name = utilisateur.getUsername();
+            return "home?faces-redirect=true";
+        } else {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email ou mot de passe incorrect", null));
+            return null;
+        }
     }
 
 
