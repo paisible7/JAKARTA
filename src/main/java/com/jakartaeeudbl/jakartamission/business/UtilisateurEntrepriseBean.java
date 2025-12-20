@@ -74,4 +74,25 @@ public class UtilisateurEntrepriseBean {
         }
         return null;
     }
+
+    /**
+     * Modifie les informations d'un utilisateur (sauf le mot de passe).
+     */
+    @Transactional
+    public void modifierUtilisateur(Utilisateur utilisateur) {
+        em.merge(utilisateur);
+    }
+
+    /**
+     * Modifie le mot de passe d'un utilisateur.
+     */
+    @Transactional
+    public void modifierMotDePasse(Long id, String nouveauMotDePasse) {
+        Utilisateur utilisateur = em.find(Utilisateur.class, id);
+        if (utilisateur != null) {
+            String hashedPassword = BCrypt.hashpw(nouveauMotDePasse, BCrypt.gensalt());
+            utilisateur.setPassword(hashedPassword);
+            em.merge(utilisateur);
+        }
+    }
 }
