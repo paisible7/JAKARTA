@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.jakartaeeudbl.jakartamission.business.SessionManager;
 import com.jakartaeeudbl.jakartamission.business.UtilisateurEntrepriseBean;
 import com.jakartaeeudbl.jakartamission.entities.Utilisateur;
 import jakarta.enterprise.context.RequestScoped;
@@ -27,6 +28,9 @@ public class WelcomeBean {
 
     @Inject
     private UtilisateurEntrepriseBean utilisateurEntrepriseBean;
+
+    @Inject
+    private SessionManager sessionManager;
     private String name;    
     private String message;
     private Double usd;
@@ -99,6 +103,7 @@ public class WelcomeBean {
 
         if (utilisateur != null) {
             this.name = utilisateur.getUsername();
+            sessionManager.createSession("utilisateur", email);
             return "home?faces-redirect=true";
         } else {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email ou mot de passe incorrect", null));
