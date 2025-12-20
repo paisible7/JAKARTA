@@ -22,6 +22,11 @@ public class SessionControlFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+        // Ajouter des headers pour empêcher la mise en cache des pages protégées
+        httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+        httpResponse.setHeader("Pragma", "no-cache"); // HTTP 1.0
+        httpResponse.setDateHeader("Expires", 0); // Proxies
+
         // Vérifier si l'utilisateur est connecté
         String user = (String) httpRequest.getSession().getAttribute("utilisateur");
 
