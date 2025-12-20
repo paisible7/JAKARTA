@@ -7,3 +7,35 @@
         <redirect/>
     </navigation-case>
 </navigation-rule>
+
+<navigation-rule>
+    <from-view-id>/home.xhtml</from-view-id>
+    <navigation-case>
+        <from-outcome>lieu</from-outcome>
+        <to-view-id>/pages/lieu.xhtml</to-view-id>
+        <redirect/>
+    </navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+    <from-view-id>/pages/lieu.xhtml</from-view-id>
+    <navigation-case>
+        <from-outcome>a_propos</from-outcome>
+        <to-view-id>/pages/a_propos.xhtml</to-view-id>
+        <redirect/>
+    </navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+    <from-view-id>/pages/a_propos.xhtml</from-view-id>
+    <navigation-case>
+        <from-outcome>home</from-outcome>
+        <to-view-id>/home.xhtml</to-view-id>
+        <redirect/>
+    </navigation-case>
+    <navigation-case>
+        <from-outcome>lieu</from-outcome>
+        <to-view-id>/pages/lieu.xhtml</to-view-id>
+        <redirect/>
+    </navigation-case>
+</navigation-rule>

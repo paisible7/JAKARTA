@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
     <title>A propos de Jakarta</title>
@@ -13,7 +11,7 @@
 <h:body class="min-h-screen relative flex items-center justify-center overflow-hidden">
 
     <div class="absolute inset-0 bg-cover bg-center scale-110"
-         style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');">
+        style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');">
     </div>
 
     <div class="absolute inset-0 backdrop-blur-md bg-black/25"></div>
@@ -25,10 +23,8 @@
                 text-white">
 
         <div class="text-center mb-8">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_Indonesia.svg"
-                 alt="Indonesie"
-                 class="w-28 mx-auto mb-4 rounded-xl
-                        border border-white/40 shadow-lg"/>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_Indonesia.svg" alt="Indonesie" class="w-28 mx-auto mb-4 rounded-xl
+                        border border-white/40 shadow-lg" />
 
             <h1 class="text-3xl font-bold">
                 A propos de Jakarta
@@ -83,22 +79,18 @@
         <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
 
             <h:form>
-                <h:commandButton value="Retour a l accueil"
-                                 action="home"
-                                 styleClass="px-6 py-3 rounded-xl
+                <h:commandButton value="Retour a l accueil" action="home" styleClass="px-6 py-3 rounded-xl
                                              bg-white/20 backdrop-blur-md
                                              border border-white/30
                                              hover:bg-white/30
-                                             transition"/>
+                                             transition" />
             </h:form>
 
             <h:form>
-                <h:commandButton value="Explorer les lieux"
-                                 action="lieu"
-                                 styleClass="px-6 py-3 rounded-xl font-semibold
+                <h:commandButton value="Explorer les lieux" action="lieu" styleClass="px-6 py-3 rounded-xl font-semibold
                                              bg-gradient-to-r from-red-600/90 to-red-500/90
                                              hover:from-red-700 hover:to-red-600
-                                             shadow-xl transition"/>
+                                             shadow-xl transition" />
             </h:form>
 
         </div>
@@ -106,4 +98,5 @@
     </div>
 
 </h:body>
+
 </html>

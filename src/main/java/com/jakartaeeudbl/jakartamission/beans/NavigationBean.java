@@ -18,7 +18,7 @@ import jakarta.inject.Named;
 public class NavigationBean {
     public void voirApropos(){
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("a_propos.xhtml"); 
+            FacesContext.getCurrentInstance().getExternalContext().redirect("pages/a_propos.xhtml"); 
         } catch (Exception e) {
             e.printStackTrace();    
         }

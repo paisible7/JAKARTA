@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Filtre de contrôle de session pour protéger les pages de l'application.
  */
-@WebFilter("*.xhtml")
+@WebFilter("/pages/*")
 public class SessionControlFilter implements Filter {
 
     @Override
@@ -22,22 +22,14 @@ public class SessionControlFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        String requestURI = httpRequest.getRequestURI();
-
-        // Vérifier si l'utilisateur est connecté en vérifiant la présence de l'attribut de session "utilisateur"
-        // (clé que nous avons définie dans WelcomeBean)
+        // Vérifier si l'utilisateur est connecté
         String user = (String) httpRequest.getSession().getAttribute("utilisateur");
 
-        // Autoriser l'accès à la page de connexion et d'inscription sans être connecté
-        boolean isLoginPage = requestURI.endsWith("index.xhtml");
-        boolean isRegisterPage = requestURI.endsWith("ajoute_utilisateur.xhtml");
-        boolean isResource = requestURI.contains("jakarta.faces.resource");
-
-        if (user == null && !isLoginPage && !isRegisterPage && !isResource) {
-            // L'utilisateur n'est pas connecté et tente d'accéder à une page protégée
+        if (user == null) {
+            // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/index.xhtml");
         } else {
-            // L'utilisateur est connecté ou accède à une page publique
+            // L'utilisateur est connecté, laisser passer
             chain.doFilter(request, response);
         }
     }
