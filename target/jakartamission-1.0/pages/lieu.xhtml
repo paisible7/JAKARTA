@@ -88,6 +88,8 @@
     styleClass="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col items-center justify-center p-4 md:p-8 bg-cover bg-center"
     style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');">
 
+    <ui:include src="/WEB-INF/includes/userPanel.xhtml" xmlns:ui="jakarta.faces.facelets" />
+
     <div class="fixed inset-0 backdrop-blur-md bg-black/50 z-0 pointer-events-none"></div>
 
     <div id="editModalWrapper" style="display: none;" onclick="closeModalOnOutsideClick(event, 'editModalWrapper')"
@@ -292,7 +294,7 @@
     </div>
 
 
-    <ui:include src="/WEB-INF/includes/userPanel.xhtml" xmlns:ui="jakarta.faces.facelets" />
+    
 </h:body>
 
 </html>
