@@ -13,6 +13,10 @@ import java.util.List;
 
 import com.jakartaeeudbl.jakartamission.entities.Lieu;
 import com.jakartaeeudbl.jakartamission.business.LieuEntrepriseBean;
+import jakarta.faces.event.AjaxBehaviorEvent;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  *
@@ -26,6 +30,9 @@ public class LieuBean implements Serializable{
     private String description;
     private Double longitude;
     private Double latitude;
+    
+    private Integer selectedLieu; // ID du lieu sélectionné pour la météo
+    private String weatherMessage;
     
     private Lieu lieuSelectionne; // Pour l'édition/suppression
 
@@ -60,6 +67,45 @@ public class LieuBean implements Serializable{
             latitude = null;
             longitude = null;
         }
+    }
+
+    public void fetchWeatherMessage(Lieu l) {
+        if (l != null) {
+            String serviceURL = "http://localhost:8080/jakartamission/webapi/JakartaWeather?latitude="
+                    + l.getLatitude() + "&longitude=" + l.getLongitude();
+            try {
+                Client client = ClientBuilder.newClient();
+                String response = client.target(serviceURL)
+                        .request(MediaType.TEXT_PLAIN)
+                        .get(String.class);
+                this.weatherMessage = response;
+            } catch (Exception e) {
+                this.weatherMessage = "Service météo indisponible.";
+            }
+        }
+    }
+
+    public void updateWeatherMessage(AjaxBehaviorEvent event) {
+        if (selectedLieu != null) {
+            Lieu lieu = lieuEntrepriseBean.getLieuById(selectedLieu);
+            this.fetchWeatherMessage(lieu);
+        }
+    }
+
+    public Integer getSelectedLieu() {
+        return selectedLieu;
+    }
+
+    public void setSelectedLieu(Integer selectedLieu) {
+        this.selectedLieu = selectedLieu;
+    }
+
+    public String getWeatherMessage() {
+        return weatherMessage;
+    }
+
+    public void setWeatherMessage(String weatherMessage) {
+        this.weatherMessage = weatherMessage;
     }
     
     public void preparerModifier(Lieu lieu) {

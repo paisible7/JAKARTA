@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+    <title>Enregistrer une Visite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</h:head>
+
+<h:body styleClass="min-h-screen flex items-center justify-center p-4 bg-cover bg-center"
+    style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b');">
+
+    <ui:include src="/WEB-INF/includes/userPanel.xhtml" />
+
+    <div class="fixed inset-0 backdrop-blur-md bg-black/60 z-0"></div>
+
+    <div
+        class="fade-in w-full max-w-xl relative z-10 p-8 rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/20 shadow-2xl text-white">
+
+        <div class="mb-8 text-center">
+            <h1 class="text-4xl font-black tracking-tighter mb-2">Enregistrer votre visite</h1>
+            <p class="text-white/60 text-sm uppercase tracking-widest font-bold">Lieu ID: #{visiteBean.selectedLieuId}
+            </p>
+        </div>
+
+        <h:form class="space-y-6">
+            <h:inputHidden value="#{visiteBean.selectedLieuId}" />
+
+            <div>
+                <label class="block text-[10px] uppercase opacity-60 mb-2 font-black italic">Racontez votre
+                    expérience</label>
+                <h:inputTextarea value="#{visiteBean.description}" rows="5" required="true"
+                    styleClass="w-full px-6 py-4 rounded-2xl bg-white/10 border border-white/10 outline-none focus:ring-2 focus:ring-red-600 transition text-white placeholder-white/20"
+                    placeholder="Qu'est-ce qui vous a marqué dans ce lieu ?" />
+            </div>
+
+            <div class="flex gap-4">
+                <h:link outcome="lieu" value="ANNULER"
+                    styleClass="flex-1 py-4 rounded-2xl font-black bg-white/5 hover:bg-white/10 transition text-center text-xs tracking-widest border border-white/10" />
+
+                <h:commandButton value="ENREGISTRER LA VISITE" action="#{visiteBean.enregistrerVisite}"
+                    styleClass="flex-1 py-4 rounded-2xl font-black bg-red-600 hover:bg-red-500 transition shadow-lg text-xs tracking-widest cursor-pointer active:scale-95" />
+            </div>
+
+            <h:panelGroup rendered="#{not empty visiteBean.message}"
+                styleClass="block mt-4 text-center text-red-400 text-xs font-bold">
+                #{visiteBean.message}
+            </h:panelGroup>
+        </h:form>
+    </div>
+
+</h:body>
+
+</html>

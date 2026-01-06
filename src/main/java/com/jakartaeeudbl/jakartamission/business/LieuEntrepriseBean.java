@@ -45,6 +45,10 @@ public class LieuEntrepriseBean {
     public Lieu trouverLieuParId(int id) {
         return em.find(Lieu.class, id);
     }
+
+    public Lieu getLieuById(int id) {
+        return trouverLieuParId(id);
+    }
     
     @Transactional
     public void modifierLieu(int id, String nom, String description, double latitude, double longitude) {

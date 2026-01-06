@@ -79,6 +79,18 @@
             }
         }
 
+        function handleDeleteModal(data) {
+            if (data.status === 'success') {
+                closeModal('deleteModalWrapper');
+            }
+        }
+
+        function handleOpenDeleteModal(data) {
+            if (data.status === 'success') {
+                openModal('deleteModalWrapper');
+            }
+        }
+
 
 
     </script>
@@ -165,11 +177,7 @@
                     <h:commandButton value="Supprimer" action="#{lieuBean.supprimerLieu}"
                         styleClass="flex-1 py-3 rounded-xl font-bold bg-red-600 hover:bg-red-700 transition shadow-lg uppercase text-xs tracking-widest cursor-pointer">
 
-                        <f:ajax execute="@form" render=":listeForm" onevent="function(data) {
-                                if (data.status === 'success') {
-                                    closeModal('deleteModalWrapper');
-                                }
-                            }" />
+                        <f:ajax execute="@form" render=":listeForm" onevent="handleDeleteModal" />
                     </h:commandButton>
                 </div>
             </h:form>
@@ -220,7 +228,7 @@
         </div>
 
         <div
-            class="w-full lg:w-[70%] flex flex-col rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/20 shadow-2xl text-white overflow-hidden min-h-[500px] lg:min-h-0">
+            class="w-full lg:flex-1 flex flex-col rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/20 shadow-2xl text-white overflow-hidden min-h-[500px] lg:min-h-0">
 
             <div class="p-6 md:p-8 pb-4 flex flex-row justify-between items-center">
                 <h2 class="text-2xl md:text-3xl font-black tracking-tighter">Lieux</h2>
@@ -281,8 +289,22 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
-                                    <f:ajax execute="@this" render=":modalDeleteForm"
-                                        onevent="function(data) { if (data.status === 'success') openModal('deleteModalWrapper'); }" />
+                                    <f:ajax execute="@this" render=":modalDeleteForm" onevent="handleOpenDeleteModal" />
+                                </h:commandLink>
+
+                                <h:commandLink action="#{visiteBean.afficherFormulaireVisite}"
+                                    styleClass="p-2 rounded-lg bg-red-600 hover:bg-white hover:text-red-600 transition group relative">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    <f:setPropertyActionListener value="#{l.id}"
+                                        target="#{visiteBean.selectedLieuId}" />
+                                    <span
+                                        class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black text-[8px] rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">Visiter</span>
                                 </h:commandLink>
 
                             </div>
@@ -290,11 +312,46 @@
                     </h:dataTable>
                 </h:form>
             </div>
+
+
         </div>
+
+        <!-- Nouveau bloc Météo (Après la liste) -->
+        <div
+            class="w-full lg:w-[25%] flex flex-col p-6 md:p-8 rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/20 shadow-2xl text-white">
+            <div class="flex-shrink-0">
+                <h3 class="text-xs font-black uppercase tracking-widest text-red-500 mb-1">Météo Localisée</h3>
+                <p class="text-[10px] text-white/40 uppercase font-bold italic">Simulation en temps réel</p>
+            </div>
+
+            <h:form styleClass="flex-grow flex flex-col md:flex-row gap-4 items-center w-full">
+                <div class="w-full md:w-64">
+                    <h:selectOneMenu value="#{lieuBean.selectedLieu}"
+                        styleClass="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white outline-none focus:ring-1 focus:ring-red-600 transition">
+                        <f:selectItem itemLabel="Sélectionner un lieu..." itemValue="#{null}" />
+                        <f:selectItems value="#{lieuBean.lieux}" var="lieu" itemValue="#{lieu.id}"
+                            itemLabel="#{lieu.nom}" />
+                        <f:ajax listener="#{lieuBean.updateWeatherMessage}" render="weatherOutputBottom" />
+                    </h:selectOneMenu>
+                </div>
+
+                <h:panelGroup id="weatherOutputBottom" layout="block"
+                    styleClass="flex-grow p-4 rounded-xl bg-red-600/10 border border-red-600/20 min-h-[50px] flex items-center justify-center">
+                    <h:outputText value="#{lieuBean.weatherMessage}" rendered="#{not empty lieuBean.weatherMessage}"
+                        styleClass="text-sm font-medium text-red-200 italic text-center" />
+                    <h:outputText value="Choisissez un lieu pour voir la météo"
+                        rendered="#{empty lieuBean.weatherMessage}"
+                        styleClass="text-[10px] text-white/30 uppercase tracking-widest font-bold" />
+                </h:panelGroup>
+            </h:form>
+
+            </div>
+
+
     </div>
 
 
-    
+
 </h:body>
 
 </html>

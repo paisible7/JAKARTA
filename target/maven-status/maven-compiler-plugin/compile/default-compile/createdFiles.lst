@@ -1,6 +1,9 @@
+com/jakartaeeudbl/jakartamission/entities/Visite.class
 com/jakartaeeudbl/jakartamission/JakartaRestConfiguration.class
+com/jakartaeeudbl/jakartamission/business/VisiteEntrepriseBean.class
 com/jakartaeeudbl/jakartamission/entities/Lieu.class
 com/jakartaeeudbl/jakartamission/beans/NavigationBean.class
+com/jakartaeeudbl/jakartamission/beans/VisiteBean.class
 com/jakartaeeudbl/jakartamission/beans/UtilisateurBean.class
 com/jakartaeeudbl/jakartamission/resources/JakartaEE10Resource.class
 com/jakartaeeudbl/jakartamission/business/SessionControlFilter.class
@@ -10,4 +13,5 @@ com/jakartaeeudbl/jakartamission/beans/WelcomeBean.class
 com/jakartaeeudbl/jakartamission/beans/LieuBean.class
 com/jakartaeeudbl/jakartamission/business/UtilisateurEntrepriseBean.class
 com/jakartaeeudbl/jakartamission/entities/Utilisateur.class
+com/jakartaeeudbl/jakartamission/resources/JakartaWeatherResource.class
 com/jakartaeeudbl/jakartamission/business/SessionManager.class
